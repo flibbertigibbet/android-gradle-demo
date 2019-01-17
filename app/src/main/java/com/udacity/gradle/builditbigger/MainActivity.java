@@ -8,20 +8,16 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.banderkat.jokeactivitylibrary.ShowJokeActivity;
-import com.banderkat.jokes.Jokes;
 
 import static com.banderkat.jokeactivitylibrary.ShowJokeActivity.JOKE_BUNDLE_ID;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private Jokes jokes;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        jokes = new Jokes();
     }
 
 
@@ -48,10 +44,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        Intent intent = new Intent(this, ShowJokeActivity.class);
-        intent.putExtra(JOKE_BUNDLE_ID, jokes.getJoke());
-        startActivity(intent);
+        new QueryJokeAsyncTask().execute(this);
     }
-
-
 }
