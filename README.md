@@ -2,6 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/flibbertigibbet/android-gradle-demo.svg?style=svg)](https://circleci.com/gh/flibbertigibbet/android-gradle-demo)
 
+Based on this [Udacity gradle project](https://github.com/udacity/ud867/tree/master/FinalProject).
+
 In this project, you will create an app with multiple flavors that uses
 multiple libraries and Google Cloud Endpoints. The finished app will consist
 of four modules. A Java library that provides jokes, a Google Cloud Endpoints
