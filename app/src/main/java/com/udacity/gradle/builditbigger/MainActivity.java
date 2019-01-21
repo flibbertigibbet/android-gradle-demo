@@ -10,7 +10,16 @@ import android.widget.ProgressBar;
 
 public class MainActivity extends AppCompatActivity {
 
+    public interface JokeInterface {
+        void clickedShowJoke();
+    }
+
     private ProgressBar progressBar;
+    private JokeInterface callback;
+
+    public void setCallback(JokeInterface callback) {
+        this.callback = callback;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +55,11 @@ public class MainActivity extends AppCompatActivity {
     public void tellJoke(View view) {
         progressBar.setIndeterminate(true);
         progressBar.setVisibility(View.VISIBLE);
+
         new QueryJokeAsyncTask().execute(this);
+        if (callback != null) {
+            callback.clickedShowJoke();
+        }
     }
 
     @Override
