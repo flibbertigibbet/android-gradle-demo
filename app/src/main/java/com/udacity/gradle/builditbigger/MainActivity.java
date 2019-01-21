@@ -5,15 +5,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar = findViewById(R.id.joke_progressbar);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
 
@@ -40,8 +44,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        Toast.makeText(this, "derp", Toast.LENGTH_SHORT).show();
+        progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.VISIBLE);
+        new QueryJokeAsyncTask().execute(this);
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        progressBar.setVisibility(View.INVISIBLE);
+    }
 }
