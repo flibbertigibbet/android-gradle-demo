@@ -47,8 +47,10 @@ public class QueryJokeAsyncTask extends AsyncTask<Context, Void, String> {
         try {
             return myApiService.sayJoke().execute().getData();
         } catch (IOException e) {
-            return e.getMessage();
+            Log.e(LOG_LABEL, e.getMessage());
         }
+
+        return null;
     }
 
     @Override
