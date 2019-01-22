@@ -3,7 +3,9 @@ package com.udacity.gradle.builditbigger;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.banderkat.jokeactivitylibrary.ShowJokeActivity;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -22,7 +24,7 @@ import static com.banderkat.jokeactivitylibrary.ShowJokeActivity.JOKE_BUNDLE_ID;
 public class QueryJokeAsyncTask extends AsyncTask<Context, Void, String> {
 
     private static final String LOG_LABEL = "QueryAsyncTask";
-    private static MyApi myApiService = null;
+    private static MyApi sMyApiService = null;
     private WeakReference<Context> contextRef;
 
     @Override
@@ -30,7 +32,7 @@ public class QueryJokeAsyncTask extends AsyncTask<Context, Void, String> {
 
         contextRef = new WeakReference<>(params[0]);
 
-        if(myApiService == null) {  // Only do this once
+        if (sMyApiService == null) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
 
@@ -41,14 +43,16 @@ public class QueryJokeAsyncTask extends AsyncTask<Context, Void, String> {
                             abstractGoogleClientRequest.setDisableGZipContent(true);
                         }
                     });
-            myApiService = builder.build();
+            sMyApiService = builder.build();
         }
 
         try {
-            return myApiService.sayJoke().execute().getData();
+            return sMyApiService.sayJoke().execute().getData();
         } catch (IOException e) {
-            return e.getMessage();
+            Log.e(LOG_LABEL, e.getMessage());
         }
+
+        return null;
     }
 
     @Override
@@ -58,6 +62,11 @@ public class QueryJokeAsyncTask extends AsyncTask<Context, Void, String> {
         Context context = contextRef.get();
         if (context == null) {
             Log.w(LOG_LABEL, "Context reference is gone; not showing joke");
+            return;
+        }
+
+        if (TextUtils.isEmpty(joke)) {
+            Toast.makeText(context, R.string.joke_error_message, Toast.LENGTH_LONG).show();
             return;
         }
 

@@ -71,7 +71,6 @@ dependencies {
 
     freeImplementation 'com.google.android.gms:play-services-ads:17.1.2'
 
-    implementation project(':jokes')
     implementation project(':jokeactivitylibrary')
     endpointsServer project(path: ':backend', configuration: 'endpoints')
 
